@@ -34,9 +34,18 @@ public class DGCollectionViewLeftAlignFlowLayout: UICollectionViewFlowLayout {
 		guard let attributes = super.layoutAttributesForItem(at: indexPath)?.copy() as? UICollectionViewLayoutAttributes else {
 			return nil
 		}
+        
+        	guard let collectionView = self.collectionView else {
+            		return attributes
+        	}
 
+        	let interItemSpacing: CGFloat = (collectionView.delegate as? UICollectionViewDelegateFlowLayout)?
+            .collectionView?(collectionView, layout: self, minimumInteritemSpacingForSectionAt: indexPath.section) ?? self.minimumInteritemSpacing
+        
 		let firstInSection: Bool = indexPath.item == 0
 		guard !firstInSection else {
+            	let x = interItemSpacing
+            	attributes.frame = CGRect(x: x, y: attributes.frame.origin.y, width: attributes.frame.width, height: attributes.frame.height)
 			return attributes
 		}
 
@@ -48,18 +57,8 @@ public class DGCollectionViewLeftAlignFlowLayout: UICollectionViewFlowLayout {
 			return attributes
 		}
 
-		guard let collectionView = self.collectionView else {
-			return attributes
-		}
-
-		let interItemSpacing: CGFloat = (collectionView.delegate as? UICollectionViewDelegateFlowLayout)?
-			.collectionView?(collectionView, layout: self, minimumInteritemSpacingForSectionAt: indexPath.section) ?? self.minimumInteritemSpacing
-
 		let x = previousFrame.origin.x + previousFrame.width + interItemSpacing
-		attributes.frame = CGRect(x: x,
-		                          y: attributes.frame.origin.y,
-		                          width: attributes.frame.width,
-		                          height: attributes.frame.height)
+		attributes.frame = CGRect(x: x, y: attributes.frame.origin.y, width: attributes.frame.width, height: attributes.frame.height)
 
 		return attributes
 	}
