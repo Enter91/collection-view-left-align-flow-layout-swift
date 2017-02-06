@@ -44,7 +44,7 @@ public class DGCollectionViewLeftAlignFlowLayout: UICollectionViewFlowLayout {
         
 		let firstInSection: Bool = indexPath.item == 0
 		guard !firstInSection else {
-            	let x = interItemSpacing
+            	let x = self.sectionInset.left
             	attributes.frame = CGRect(x: x, y: attributes.frame.origin.y, width: attributes.frame.width, height: attributes.frame.height)
 			return attributes
 		}
@@ -54,7 +54,7 @@ public class DGCollectionViewLeftAlignFlowLayout: UICollectionViewFlowLayout {
 		let firstInRow = previousFrame.origin.y != attributes.frame.origin.y
 
 		guard !firstInRow else {
-			let x = interItemSpacing
+			let x = self.sectionInset.left
             		attributes.frame = CGRect(x: x, y: attributes.frame.origin.y, width: attributes.frame.width, height: attributes.frame.height)
 			return attributes
 		}
