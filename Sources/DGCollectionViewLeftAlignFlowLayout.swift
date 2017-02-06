@@ -39,13 +39,13 @@ public class DGCollectionViewLeftAlignFlowLayout: UICollectionViewFlowLayout {
             		return attributes
         	}
 
-        	let interItemSpacing: CGFloat = (collectionView.delegate as? UICollectionViewDelegateFlowLayout)?
-            .collectionView?(collectionView, layout: self, minimumInteritemSpacingForSectionAt: indexPath.section) ?? self.minimumInteritemSpacing
+        	let interItemSpacing: CGFloat = (collectionView.delegate as? UICollectionViewDelegateFlowLayout)?.collectionView?(collectionView, layout: self, minimumInteritemSpacingForSectionAt: indexPath.section) ?? self.minimumInteritemSpacing
         
 		let firstInSection: Bool = indexPath.item == 0
 		guard !firstInSection else {
-            	let x = self.sectionInset.left
-            	attributes.frame = CGRect(x: x, y: attributes.frame.origin.y, width: attributes.frame.width, height: attributes.frame.height)
+            		let x = self.sectionInset.left
+            		let y = self.sectionInset.top
+            		attributes.frame = CGRect(x: x, y: y, width: attributes.frame.width, height: attributes.frame.height)
 			return attributes
 		}
 
@@ -54,13 +54,15 @@ public class DGCollectionViewLeftAlignFlowLayout: UICollectionViewFlowLayout {
 		let firstInRow = previousFrame.origin.y != attributes.frame.origin.y
 
 		guard !firstInRow else {
-			let x = self.sectionInset.left
-            		attributes.frame = CGRect(x: x, y: attributes.frame.origin.y, width: attributes.frame.width, height: attributes.frame.height)
+            		let x = self.sectionInset.left
+            		let y = attributes.frame.origin.y
+            		attributes.frame = CGRect(x: x, y: y, width: attributes.frame.width, height: attributes.frame.height)
 			return attributes
 		}
 
 		let x = previousFrame.origin.x + previousFrame.width + interItemSpacing
-		attributes.frame = CGRect(x: x, y: attributes.frame.origin.y, width: attributes.frame.width, height: attributes.frame.height)
+        	let y = previousFrame.origin.y
+		attributes.frame = CGRect(x: x, y: y, width: attributes.frame.width, height: attributes.frame.height)
 
 		return attributes
 	}
